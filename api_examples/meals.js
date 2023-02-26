@@ -24,7 +24,7 @@ const displayMeals = meals => {
           <h5 class="card-title">${meal.strMeal}</h5>
           
           <!-- Button trigger modal -->
-<button onclick ="loadMealDetails(${meal.idMeal})" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mealsDetailsModal">
+<button onclick ="loadMealDetails2(${meal.idMeal})" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mealsDetailsModal">
   See details</button>
           </div>
       </div>
@@ -51,8 +51,26 @@ const loadMealDetails = idMeal => {
   const url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${idMeal}`
   fetch(url)
   .then(res => res.json())
-  .then(data => displayMeaDetails(data.meals[0]));
+  .then(data => displayMeaDetails(data.meals[0]))
+  .catch(error=> {
+    console.log(error)
+  })
 }
+
+// async await 
+
+const loadMealDetails2 = async (idMeal) => {
+  const url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${idMeal}`
+  try{
+    const res = await fetch(url);
+    const data = await res.json();
+    displayMeaDetails(data.meals[0]);
+  }
+  catch(error){
+    console.log(error);
+  }
+}
+
 const displayMeaDetails = meal => {
   document.getElementById('mealsDetailsModalLabel').innerText = meal.strMeal;
   const mealsDetails = document.getElementById('mealsDetailsBody');
